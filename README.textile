@@ -1,0 +1,66 @@
+h1. TruffleHog
+
+"http://github.com/pauldix/truffle-hog":http://github.com/pauldix/truffle-hog
+
+If you have issues please use the "Feedzirra group":http://groups.google.com/group/feedzirra
+
+h2. Summary
+
+Finds RSS and Atom feed urls in html like a hog finds truffles. Tasty, delicious feeds... er, truffles.
+
+h2. Description
+
+This is a simple library. It doesn't GET the html for you. It doesn't use an HTML or XML parser. It just uses a little regex to find feed urls. If you want to GET the web pages, use "Typhoeus":http://github.com/pauldix/typhoeus/. If you want to fetch and parse the feeds use "Feedzirra":http://github.com/pauldix/feedzirra.
+
+h2. Installation
+
+<pre>
+  gem install truffle-hog --source http://gemcutter.org
+</pre>
+
+h2. Use
+
+<pre>
+require 'rubygems'
+require 'truffle-hog'
+
+# get atom and rss
+feed_urls = TruffleHog.parse_feed_urls(some_html)
+
+# get atom if available, otherwise rss
+feed_urls = TruffleHog.parse_feed_urls(some_html, :atom)
+
+# get rss if available, otherwise atom
+feed_urls = TruffleHog.parse_feed_urls(some_html, :rss)
+</pre>
+
+h2. Next
+
+I may want to make a fun Nokogiri backed version and test speed and stuff. This thing hasn't been benchmarked yet.
+
+h2. LICENSE
+
+(The MIT License)
+ 
+Copyright (c) 2009:
+ 
+"Paul Dix":http://pauldix.net
+ 
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+ 
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
