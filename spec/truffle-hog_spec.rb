@@ -39,11 +39,15 @@ describe "parsing html" do
   it "returns atom feeds if rss is favored, but none are found"
   it "returns rss feeds if atom is favored, but none are found"
   
-  describe "odd regressions" do
+  describe "regressions" do
     it "doesn't go into an infinite loop on this input" do
       input = File.read("#{File.dirname(__FILE__)}/infinite.html")
       feed_urls = TruffleHog.parse_feed_urls(input)
       feed_urls.should == ["http://feeds.feedburner.com/cryptload"]
+    end
+    
+    it "doesn't break when an anchor without an href is passed" do
+      TruffleHog.parse_feed_urls("<a type='application/rss+xml'>").should == []
     end
   end
 end

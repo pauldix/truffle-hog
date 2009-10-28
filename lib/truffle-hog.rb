@@ -23,7 +23,12 @@ module TruffleHog
     tags = html.scan(/(<#{tag}.*?>)/).flatten
     feed_tags = collect(tags, type)
     feed_tags.map do |tag|
-      url = tag.match(/.*href=['"](.*?)['"].*/)[1]
+      matches = tag.match(/.*href=['"](.*?)['"].*/)
+      if matches.nil?
+        url = ""
+      else
+        url = matches[1]
+      end
       url =~ /^http.*/ ? url : nil
     end.compact
   end
