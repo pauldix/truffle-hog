@@ -2,11 +2,8 @@ module TruffleHog
   VERSION = "0.0.1"
   
   def self.parse_feed_urls(html, favor = :all)
-    rss_links  = []
-    atom_links = []
-    
-    rss_links  = (scan_for_tag(html, "a", "rss") + scan_for_tag(html, "link", "rss")).flatten.uniq
-    atom_links = (scan_for_tag(html, "a", "atom") + scan_for_tag(html, "link", "atom")).flatten.uniq
+    rss_links  = scan_for_tag(html, "rss")
+    atom_links = scan_for_tag(html, "atom")
 
     case favor
     when :all
@@ -18,10 +15,24 @@ module TruffleHog
     end
   end
   
-  def self.scan_for_tag(html, tag, type)
-    href_first = html.scan(/<#{tag}.*href\=['"](.*?)['"].*type\=['"]application\/#{type}\+xml['"].*?>/)
-    return href_first unless href_first.empty?
-    
-    html.scan(/<#{tag}.*type\=['"]application\/#{type}\+xml['"].*href=['"](.*?)['"].*?>/)
+  def self.scan_for_tag(html, type)
+    urls(html, "link", type) + urls(html, "a", type)
+  end
+  
+  def self.urls(html, tag, type)
+    tags = html.scan(/(<#{tag}.*?>)/).flatten
+    feed_tags = collect(tags, type)
+    feed_tags.map do |tag|
+      url = tag.match(/.*href=['"](.*?)['"].*/)[1]
+      url =~ /^http.*/ ? url : nil
+    end.compact
+  end
+  
+  def self.collect(tags, type)
+    tags.collect {|t| t if feed?(t, type)}.compact
+  end
+  
+  def self.feed?(html, type)
+    html =~ /.*type=['"]application\/#{type}\+xml['"].*/
   end
 end
