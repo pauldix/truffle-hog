@@ -1,5 +1,5 @@
 module TruffleHog
-  VERSION = "0.0.2"
+  VERSION = "0.0.3"
   
   def self.parse_feed_urls(html, favor = :all)
     rss_links  = scan_for_tag(html, "rss")
